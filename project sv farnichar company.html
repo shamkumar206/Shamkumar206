@@ -1,0 +1,369 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The SV Furniture Co — Authentic Handcrafted Furniture</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The SV Furniture Co by Shamkumar — handmade wooden furniture crafted in Tamil Nadu. Dining tables, beds, wardrobes, bookshelves. Pan-India delivery." />
+  <meta name="theme-color" content="#8B4513" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="The SV Furniture Co — Authentic Handcrafted Furniture" />
+  <meta property="og:description" content="Handmade, high-quality wooden furniture. Free quotes. Pan-India delivery." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts (Playfair Display + Open Sans) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========== Base / Reset ========== */
+    *, *::before, *::after { box-sizing: border-box; }
+    :root{
+      --saddle:#8B4513;
+      --tan:#D2B48C;
+      --ivory:#f9f5f0;
+      --charcoal:#333333;
+      --white:#ffffff;
+      --shadow:0 10px 30px rgba(0,0,0,.12);
+      --radius:16px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--ivory);
+      color: var(--charcoal);
+      font: 16px/1.6 "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1,h2,h3 { font-family: "Playfair Display", Georgia, serif; color: var(--saddle); margin: 0 0 .5rem; }
+    a { color: inherit; text-decoration: none; }
+
+    .container { width: min(1200px, 92vw); margin-inline: auto; }
+    .btn {
+      display:inline-block; padding:.9rem 1.25rem; border-radius:12px;
+      background: var(--saddle); color: var(--white); font-weight:700;
+      box-shadow: var(--shadow); transition: transform .15s ease, opacity .15s ease, background .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); opacity:.95; background:#a0522d; }
+    .btn--ghost { background: var(--tan); color: #231f1b; }
+
+    /* ========== Header / Nav (Sticky) ========== */
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      background: linear-gradient(90deg, #ffffff 0%, #fff7f0 40%, #f9f5f0 100%);
+      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+    }
+    .nav {
+      display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 1rem;
+      padding: .85rem 0;
+    }
+    .brand { display:flex; align-items:center; gap:.75rem; }
+    .logo__img {
+      width:44px; height:44px; border-radius:50%; flex:0 0 44px; object-fit:contain;
+      /* You can replace the data URI below with: src="logo.png" */
+    }
+    .brand__title { font-size:1.35rem; letter-spacing:.2px; font-weight:700; }
+    nav ul { display:flex; gap:1.2rem; list-style:none; justify-content:flex-end; align-items:center; }
+    nav a { font-weight:700; color:#2a2521; padding:.5rem .25rem; border-radius:8px; }
+    nav a:hover { color: var(--saddle); background: rgba(139,69,19,.08); }
+
+    /* ========== Hero ========== */
+    .hero {
+      min-height: 86vh; display:grid; place-items:center; position:relative; text-align:center; color:var(--white);
+      background: url("https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1920&auto=format&fit=crop") center/cover no-repeat;
+      isolation:isolate;
+    }
+    .hero::after {
+      content:""; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.35));
+      z-index:0;
+    }
+    .hero__inner { z-index:1; padding: 2rem 1rem; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3rem); color:#fff; }
+    .hero p { color: #f0e8e0; margin:.6rem 0 1.25rem; font-size: clamp(1rem, 2.5vw, 1.15rem); }
+
+    /* ========== Sections ========== */
+    section { padding: 3.2rem 0; }
+    .badges { display:flex; flex-wrap:wrap; gap:.5rem; margin:.75rem 0 0; }
+    .badge {
+      background: var(--tan); color:#231f1b; padding:.35rem .6rem; border-radius: 999px; font-weight:700; font-size:.85rem;
+    }
+
+    /* About */
+    .about__grid { display:grid; gap:2rem; grid-template-columns: 1.1fr .9fr; }
+    @media (max-width: 900px){ .about__grid { grid-template-columns: 1fr; } }
+    .about__img {
+      width:100%; border-radius: var(--radius); box-shadow: var(--shadow); display:block;
+    }
+    .about__list { margin:.6rem 0 0; display:grid; gap:.6rem; }
+    .about__item { background:#fff; border-radius:12px; padding:.75rem .9rem; box-shadow: 0 6px 16px rgba(0,0,0,.07); }
+
+    /* Gallery */
+    .grid { display:grid; gap:1.25rem; grid-template-columns: repeat(12, 1fr); }
+    .gallery__card {
+      grid-column: span 3; min-width: 0; background:#fff; border-radius: 14px; overflow:hidden; box-shadow: var(--shadow);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .gallery__card:hover { transform: translateY(-6px); box-shadow: 0 12px 26px rgba(0,0,0,.18); }
+    .gallery__img { width:100%; height: 220px; object-fit: cover; display:block; }
+    .gallery__body { padding: .9rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:.6rem; }
+    .price { color: var(--saddle); font-weight: 800; }
+    @media (max-width: 1100px){ .gallery__card{ grid-column: span 4; } }
+    @media (max-width: 720px){ .gallery__card{ grid-column: span 6; } }
+    @media (max-width: 520px){ .gallery__card{ grid-column: span 12; } }
+
+    /* Contact / Quote */
+    .contact__grid { display:grid; gap:1.5rem; grid-template-columns: 1.1fr .9fr; align-items: start; }
+    @media (max-width: 900px){ .contact__grid { grid-template-columns: 1fr; } }
+    .panel {
+      background:#fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.25rem;
+    }
+    form { display:grid; gap:.85rem; }
+    label { font-weight:700; font-size:.95rem; }
+    input, textarea {
+      width:100%; padding:.7rem .85rem; border:1px solid #d8d1c8; border-radius:10px; font: inherit; background:#fff;
+    }
+    input:focus, textarea:focus{ outline: 2px solid var(--saddle); border-color: var(--saddle); }
+    .row { display:grid; gap:.85rem; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 520px){ .row{ grid-template-columns:1fr; } }
+    .help { font-size:.875rem; color:#6b625b; }
+
+    /* Footer */
+    footer {
+      background:#222; color:#eee; text-align:center; padding:1.25rem;
+    }
+  </style>
+
+  <!-- Local Business SEO (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"LocalBusiness",
+    "name":"The SV Furniture Co",
+    "image":"https://example.com/logo.png",
+    "description":"Handmade wooden furniture by Shamkumar — dining tables, beds, bookshelves, wardrobes.",
+    "address":{"@type":"PostalAddress","streetAddress":"12/7 MG Road","addressLocality":"Kumbakonam","addressRegion":"Tamil Nadu","postalCode":"612001","addressCountry":"IN"},
+    "telephone":"+91 98765 43210",
+    "email":"shamkumar@woodcrafts.in",
+    "areaServed":"IN"
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ===== Header / Navigation ===== -->
+  <header role="banner">
+    <div class="container nav" aria-label="Primary">
+      <div class="brand">
+        <!-- LOGO IMAGE (inline SVG as an <img> data URI).
+             To use your own file, simply replace the src with: src="logo.png" -->
+        <img class="logo__img" alt="The SV Furniture Co logo"
+             src='data:image/svg+xml;utf8,
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+               <defs>
+                 <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                   <stop offset="0" stop-color="%238B4513"/>
+                   <stop offset="1" stop-color="%23D2B48C"/>
+                 </linearGradient>
+               </defs>
+               <rect rx="20" width="96" height="96" fill="url(%23g)"/>
+               <g fill="%23fff">
+                 <circle cx="30" cy="58" r="6"/>
+                 <circle cx="66" cy="58" r="6"/>
+                 <rect x="22" y="34" width="52" height="16" rx="4"/>
+                 <rect x="28" y="52" width="8" height="14" rx="2"/>
+                 <rect x="60" y="52" width="8" height="14" rx="2"/>
+               </g>
+             </svg>' />
+        <div class="brand__title" aria-label="The SV Furniture Co">The SV Furniture Co</div>
+      </div>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="hero" role="region" aria-label="Hero">
+    <div class="hero__inner container">
+      <h1>Authentic Handcrafted Furniture</h1>
+      <p>Tailored woodwork that lasts generations.</p>
+      <a href="#contact" class="btn" aria-label="Jump to contact to get a free quote">Get a Free Quote →</a>
+    </div>
+  </section>
+
+  <!-- ===== About ===== -->
+  <section id="about" class="about" aria-label="About The SV Furniture Co">
+    <div class="container about__grid">
+      <div>
+        <h2>Craftsmanship, Trust &amp; Tradition</h2>
+        <p>Led by master craftsman <strong>Shamkumar</strong>, we create elegant and durable woodwork that transforms homes into heritage. With <strong>15+ years</strong> of hands-on carpentry, we build furniture meant to be lived with—and handed down.</p>
+        <div class="badges" aria-label="Highlights">
+          <span class="badge">15+ Years</span>
+          <span class="badge">Handmade</span>
+          <span class="badge">Pan-India Delivery</span>
+        </div>
+        <div class="about__list">
+          <div class="about__item"><strong>Premium Wood:</strong> Responsibly sourced from <em>Tamil Nadu</em> &amp; <em>Kerala</em> mills for stability and beauty.</div>
+          <div class="about__item"><strong>Specialties:</strong> Dining tables, beds, bookshelves, wardrobes—customised to your home.</div>
+          <div class="about__item"><strong>Finish &amp; Joinery:</strong> Traditional joinery, smooth finishes and protective oils that age gracefully.</div>
+        </div>
+      </div>
+      <figure class="panel">
+        <img class="about__img"
+             src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1200&auto=format&fit=crop"
+             srcset="
+               https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=480&q=80&auto=format&fit=crop 480w,
+               https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80&auto=format&fit=crop 800w,
+               https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80&auto=format&fit=crop 1200w"
+             sizes="(max-width: 900px) 92vw, 540px"
+             alt="Close-up of a craftsman hand-finishing a solid wood tabletop"
+             loading="lazy" width="1200" height="900">
+        <figcaption class="help">Hands that know the grain.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== Gallery ===== -->
+  <section id="gallery" class="gallery" aria-label="Product gallery">
+    <div class="container">
+      <h2>Signature Pieces</h2>
+      <p class="help">Every piece is measured, matched, and finished by hand for timeless character.</p>
+
+      <div class="grid" style="margin-top:1rem">
+        <!-- Card 1 -->
+        <article class="gallery__card" aria-label="Dining Table">
+          <img class="gallery__img"
+               src="https://images.unsplash.com/photo-1505691723518-36a5ac3b2d95?q=80&w=900&auto=format&fit=crop"
+               srcset="
+                 https://images.unsplash.com/photo-1505691723518-36a5ac3b2d95?w=480&q=80 480w,
+                 https://images.unsplash.com/photo-1505691723518-36a5ac3b2d95?w=900&q=80 900w,
+                 https://images.unsplash.com/photo-1505691723518-36a5ac3b2d95?w=1500&q=80 1500w"
+               sizes="(max-width:720px) 100vw, 25vw"
+               alt="Solid wood dining table set in a sunlit room" loading="lazy" width="1200" height="900">
+          <div class="gallery__body">
+            <h3>Dining Table</h3>
+            <p class="price">₹37,000</p>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="gallery__card" aria-label="Custom Bookshelf">
+          <img class="gallery__img"
+               src="https://images.unsplash.com/photo-1514893072890-082f2b318501?q=80&w=900&auto=format&fit=crop"
+               srcset="
+                 https://images.unsplash.com/photo-1514893072890-082f2b318501?w=480&q=80 480w,
+                 https://images.unsplash.com/photo-1514893072890-082f2b318501?w=900&q=80 900w,
+                 https://images.unsplash.com/photo-1514893072890-082f2b318501?w=1500&q=80 1500w"
+               sizes="(max-width:720px) 100vw, 25vw"
+               alt="Tall wooden bookshelf with staggered shelves" loading="lazy" width="1200" height="900">
+          <div class="gallery__body">
+            <h3>Custom Bookshelf</h3>
+            <p class="price">₹26,000</p>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="gallery__card" aria-label="King Bed Frame">
+          <img class="gallery__img"
+               src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=900&auto=format&fit=crop"
+               srcset="
+                 https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=480&q=80 480w,
+                 https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=900&q=80 900w,
+                 https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1500&q=80 1500w"
+               sizes="(max-width:720px) 100vw, 25vw"
+               alt="Minimalist solid wood king bed frame" loading="lazy" width="1200" height="900">
+          <div class="gallery__body">
+            <h3>King Bed Frame</h3>
+            <p class="price">₹56,000</p>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="gallery__card" aria-label="Garden Bench">
+          <img class="gallery__img"
+               src="https://images.unsplash.com/photo-1523419409543-a7a3d7aaedb0?q=80&w=900&auto=format&fit=crop"
+               srcset="
+                 https://images.unsplash.com/photo-1523419409543-a7a3d7aaedb0?w=480&q=80 480w,
+                 https://images.unsplash.com/photo-1523419409543-a7a3d7aaedb0?w=900&q=80 900w,
+                 https://images.unsplash.com/photo-1523419409543-a7a3d7aaedb0?w=1500&q=80 1500w"
+               sizes="(max-width:720px) 100vw, 25vw"
+               alt="Classic wooden garden bench in a leafy courtyard" loading="lazy" width="1200" height="900">
+          <div class="gallery__body">
+            <h3>Garden Bench</h3>
+            <p class="price">₹23,000</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact & Quote ===== -->
+  <section id="contact" class="contact" aria-label="Contact and quotation">
+    <div class="container contact__grid">
+      <div>
+        <h2>Let’s craft your next masterpiece.</h2>
+        <p>Available for custom orders, home visits, and <strong>Pan-India</strong> delivery.</p>
+        <div class="badges" style="margin:.6rem 0 1rem">
+          <span class="badge">Custom Sizes</span>
+          <span class="badge">Design Consult</span>
+          <span class="badge">After-Sales Care</span>
+        </div>
+        <div class="panel">
+          <ul class="help" style="list-style:none; padding:0; margin:0">
+            <li>📞 <a href="tel:+919876543210" aria-label="Call us">+91 98765 43210</a></li>
+            <li>📧 <a href="mailto:shamkumar@woodcrafts.in" aria-label="Email us">shamkumar@woodcrafts.in</a></li>
+            <li>📍 12/7 MG Road, Kumbakonam, Tamil Nadu – 612001</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Quote Form -->
+      <aside class="panel" aria-label="Get a Free Quote">
+        <h3 style="margin-bottom:.4rem">Get a Free Quote</h3>
+        <p class="help">We typically respond within 24–48 hours.</p>
+
+        <!-- Pure HTML submission via mailto (keeps it static).
+             If you prefer JS validation or WhatsApp, say the word. -->
+        <form action="mailto:shamkumar@woodcrafts.in" method="post" enctype="text/plain">
+          <div class="row">
+            <div>
+              <label for="q-name">Name *</label>
+              <input id="q-name" name="Name" type="text" required aria-required="true" placeholder="Your full name">
+            </div>
+            <div>
+              <label for="q-phone">Phone *</label>
+              <input id="q-phone" name="Phone" type="tel" pattern="\\d{10}" required aria-required="true" placeholder="10-digit number">
+            </div>
+          </div>
+
+          <label for="q-email">Email</label>
+          <input id="q-email" name="Email" type="email" placeholder="you@example.com">
+
+          <label for="q-item">Project / Item *</label>
+          <input id="q-item" name="Item" type="text" required aria-required="true" placeholder="e.g., Teak dining table 6-seater">
+
+          <label for="q-details">Details</label>
+          <textarea id="q-details" name="Details" rows="4" placeholder="Sizes, wood preference (Teak/Rosewood), finish, timeline…"></textarea>
+
+          <button class="btn" type="submit">Request Quote</button>
+          <a class="btn btn--ghost" href="#gallery" style="margin-left:.4rem">See Work</a>
+        </form>
+
+        <p class="help" style="margin-top:.6rem">By submitting, you agree to be contacted about your quotation.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer role="contentinfo">
+    © 2025 The SV Furniture Co. Crafted with soul. Built to last. — Led by Shamkumar • Kumbakonam, TN
+  </footer>
+
+</body>
+</html>
