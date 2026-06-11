@@ -1,0 +1,245 @@
+import React, { useState } from "react";
+
+export default function App() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    department: "",
+    workshop: ""
+  });
+
+  const [participants, setParticipants] = useState([]);
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const duplicate = participants.find(
+      (p) => p.email.toLowerCase() === formData.email.toLowerCase()
+    );
+
+    if (duplicate) {
+      setMessage("❌ Participant already registered!");
+      return;
+    }
+
+    setParticipants([...participants, formData]);
+
+    setMessage(
+      `✅ Registration Confirmed for ${formData.name}. Welcome to SRM Workshop!`
+    );
+
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      department: "",
+      workshop: ""
+    });
+  };
+
+  return (
+    <div style={styles.page}>
+      {/* Header */}
+      <div style={styles.header}>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/SRM_Institute_of_Science_and_Technology_Logo.svg/1200px-SRM_Institute_of_Science_and_Technology_Logo.svg.png"
+          alt="SRM Logo"
+          style={styles.logo}
+        />
+
+        <div>
+          <h1>SRM Institute of Science and Technology</h1>
+          <h3>Workshop Registration & Confirmation App</h3>
+          <p>Chennai, Tamil Nadu</p>
+        </div>
+      </div>
+
+      {/* Registration Form */}
+      <div style={styles.card}>
+        <h2>Workshop Registration</h2>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Student Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            style={styles.input}
+          />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            style={styles.input}
+          />
+
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            style={styles.input}
+          />
+
+          <input
+            type="text"
+            name="department"
+            placeholder="Department"
+            value={formData.department}
+            onChange={handleChange}
+            required
+            style={styles.input}
+          />
+
+          <select
+            name="workshop"
+            value={formData.workshop}
+            onChange={handleChange}
+            required
+            style={styles.input}
+          >
+            <option value="">Select Workshop</option>
+            <option>React Development</option>
+            <option>Artificial Intelligence</option>
+            <option>Cloud Computing</option>
+            <option>Cyber Security</option>
+            <option>Data Science</option>
+          </select>
+
+          <button type="submit" style={styles.button}>
+            Register Now
+          </button>
+        </form>
+
+        {message && (
+          <div style={styles.message}>
+            {message}
+          </div>
+        )}
+      </div>
+
+      {/* Workshop Details */}
+      <div style={styles.card}>
+        <h2>Workshop Information</h2>
+
+        <p><b>Venue:</b> SRM University Auditorium</p>
+        <p><b>Date:</b> 25 June 2026</p>
+        <p><b>Time:</b> 9:00 AM - 4:00 PM</p>
+        <p><b>Certificate:</b> Provided to all participants</p>
+      </div>
+
+      {/* Participant List */}
+      <div style={styles.card}>
+        <h2>Registered Participants</h2>
+
+        {participants.length === 0 ? (
+          <p>No registrations yet.</p>
+        ) : (
+          <table style={styles.table}>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Workshop</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {participants.map((p, index) => (
+                <tr key={index}>
+                  <td>{p.name}</td>
+                  <td>{p.email}</td>
+                  <td>{p.department}</td>
+                  <td>{p.workshop}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const styles = {
+  page: {
+    background:
+      "linear-gradient(to right, #5b00ff, #7b1fff)",
+    minHeight: "100vh",
+    padding: "20px",
+    fontFamily: "Arial"
+  },
+
+  header: {
+    background: "white",
+    padding: "20px",
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    gap: "20px",
+    marginBottom: "20px"
+  },
+
+  logo: {
+    width: "120px",
+    height: "120px"
+  },
+
+  card: {
+    background: "#f3edf9",
+    padding: "20px",
+    borderRadius: "12px",
+    marginBottom: "20px"
+  },
+
+  input: {
+    width: "100%",
+    padding: "12px",
+    marginTop: "10px",
+    marginBottom: "10px",
+    borderRadius: "6px",
+    border: "1px solid gray"
+  },
+
+  button: {
+    width: "100%",
+    padding: "12px",
+    background: "#4b0082",
+    color: "white",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontSize: "16px"
+  },
+
+  message: {
+    marginTop: "15px",
+    padding: "10px",
+    background: "#ffffff",
+    borderRadius: "6px",
+    fontWeight: "bold"
+  },
+
+  table: {
+    width: "100%",
+    borderCollapse: "collapse"
+  }
+};
