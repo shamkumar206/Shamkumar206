@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function App() {
   const [formData, setFormData] = useState({
@@ -11,6 +11,28 @@ export default function App() {
 
   const [participants, setParticipants] = useState([]);
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); // "success" or "error"
+
+  // Auto-clear message after 5 seconds
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+        setMessageType("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone) => {
+    const phoneRegex = /^[0-9]{10}$/; // Accepts 10-digit numbers
+    return phoneRegex.test(phone.replace(/\D/g, ""));
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -22,12 +44,26 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validation checks
+    if (!validateEmail(formData.email)) {
+      setMessage("❌ Please enter a valid email address!");
+      setMessageType("error");
+      return;
+    }
+
+    if (!validatePhone(formData.phone)) {
+      setMessage("❌ Please enter a valid 10-digit phone number!");
+      setMessageType("error");
+      return;
+    }
+
     const duplicate = participants.find(
       (p) => p.email.toLowerCase() === formData.email.toLowerCase()
     );
 
     if (duplicate) {
       setMessage("❌ Participant already registered!");
+      setMessageType("error");
       return;
     }
 
@@ -36,6 +72,7 @@ export default function App() {
     setMessage(
       `✅ Registration Confirmed for ${formData.name}. Welcome to SRM Workshop!`
     );
+    setMessageType("success");
 
     setFormData({
       name: "",
@@ -68,46 +105,51 @@ export default function App() {
         <h2>Workshop Registration</h2>
 
         <form onSubmit={handleSubmit}>
+          <label style={styles.label}>Student Name *</label>
           <input
             type="text"
             name="name"
-            placeholder="Student Name"
+            placeholder="Enter your full name"
             value={formData.name}
             onChange={handleChange}
             required
             style={styles.input}
           />
 
+          <label style={styles.label}>Email Address *</label>
           <input
             type="email"
             name="email"
-            placeholder="Email Address"
+            placeholder="Enter your email"
             value={formData.email}
             onChange={handleChange}
             required
             style={styles.input}
           />
 
+          <label style={styles.label}>Phone Number *</label>
           <input
-            type="text"
+            type="tel"
             name="phone"
-            placeholder="Phone Number"
+            placeholder="10-digit phone number"
             value={formData.phone}
             onChange={handleChange}
             required
             style={styles.input}
           />
 
+          <label style={styles.label}>Department *</label>
           <input
             type="text"
             name="department"
-            placeholder="Department"
+            placeholder="Enter your department"
             value={formData.department}
             onChange={handleChange}
             required
             style={styles.input}
           />
 
+          <label style={styles.label}>Select Workshop *</label>
           <select
             name="workshop"
             value={formData.workshop}
@@ -115,7 +157,7 @@ export default function App() {
             required
             style={styles.input}
           >
-            <option value="">Select Workshop</option>
+            <option value="">Choose a workshop</option>
             <option>React Development</option>
             <option>Artificial Intelligence</option>
             <option>Cloud Computing</option>
@@ -129,7 +171,12 @@ export default function App() {
         </form>
 
         {message && (
-          <div style={styles.message}>
+          <div style={{
+            ...styles.message,
+            background: messageType === "success" ? "#e8f5e9" : "#ffebee",
+            color: messageType === "success" ? "#2e7d32" : "#c62828",
+            border: `2px solid ${messageType === "success" ? "#4caf50" : "#f44336"}`
+          }}>
             {message}
           </div>
         )}
@@ -147,28 +194,30 @@ export default function App() {
 
       {/* Participant List */}
       <div style={styles.card}>
-        <h2>Registered Participants</h2>
+        <h2>Registered Participants ({participants.length})</h2>
 
         {participants.length === 0 ? (
-          <p>No registrations yet.</p>
+          <p style={{ color: "#666" }}>No registrations yet.</p>
         ) : (
           <table style={styles.table}>
             <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Department</th>
-                <th>Workshop</th>
+              <tr style={styles.tableHeader}>
+                <th style={styles.th}>Name</th>
+                <th style={styles.th}>Email</th>
+                <th style={styles.th}>Phone</th>
+                <th style={styles.th}>Department</th>
+                <th style={styles.th}>Workshop</th>
               </tr>
             </thead>
 
             <tbody>
               {participants.map((p, index) => (
-                <tr key={index}>
-                  <td>{p.name}</td>
-                  <td>{p.email}</td>
-                  <td>{p.department}</td>
-                  <td>{p.workshop}</td>
+                <tr key={index} style={index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd}>
+                  <td style={styles.td}>{p.name}</td>
+                  <td style={styles.td}>{p.email}</td>
+                  <td style={styles.td}>{p.phone}</td>
+                  <td style={styles.td}>{p.department}</td>
+                  <td style={styles.td}>{p.workshop}</td>
                 </tr>
               ))}
             </tbody>
@@ -195,7 +244,8 @@ const styles = {
     display: "flex",
     alignItems: "center",
     gap: "20px",
-    marginBottom: "20px"
+    marginBottom: "20px",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
   },
 
   logo: {
@@ -207,16 +257,26 @@ const styles = {
     background: "#f3edf9",
     padding: "20px",
     borderRadius: "12px",
-    marginBottom: "20px"
+    marginBottom: "20px",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+  },
+
+  label: {
+    display: "block",
+    marginTop: "15px",
+    marginBottom: "5px",
+    fontWeight: "bold",
+    color: "#333"
   },
 
   input: {
     width: "100%",
     padding: "12px",
-    marginTop: "10px",
     marginBottom: "10px",
     borderRadius: "6px",
-    border: "1px solid gray"
+    border: "1px solid #ccc",
+    boxSizing: "border-box",
+    fontSize: "14px"
   },
 
   button: {
@@ -227,19 +287,50 @@ const styles = {
     border: "none",
     borderRadius: "6px",
     cursor: "pointer",
-    fontSize: "16px"
+    fontSize: "16px",
+    fontWeight: "bold",
+    marginTop: "10px",
+    transition: "background 0.3s"
   },
 
   message: {
     marginTop: "15px",
-    padding: "10px",
+    padding: "12px",
     background: "#ffffff",
     borderRadius: "6px",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    border: "2px solid #4caf50",
+    animation: "fadeIn 0.3s ease-in"
   },
 
   table: {
     width: "100%",
-    borderCollapse: "collapse"
+    borderCollapse: "collapse",
+    marginTop: "15px"
+  },
+
+  tableHeader: {
+    background: "#4b0082",
+    color: "white"
+  },
+
+  th: {
+    padding: "12px",
+    textAlign: "left",
+    fontWeight: "bold",
+    borderBottom: "2px solid #4b0082"
+  },
+
+  td: {
+    padding: "12px",
+    borderBottom: "1px solid #ddd"
+  },
+
+  tableRowEven: {
+    background: "#ffffff"
+  },
+
+  tableRowOdd: {
+    background: "#f9f7fc"
   }
 };
